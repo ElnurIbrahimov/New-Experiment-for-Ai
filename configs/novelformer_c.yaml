@@ -32,11 +32,11 @@ min_lr: 3e-5
 weight_decay: 0.1
 warmup_steps: 200
 max_steps: 10000
-batch_size: 64
+batch_size: 16
 seq_len: 1024
-gradient_accumulation_steps: 1
+gradient_accumulation_steps: 4
 dtype: bfloat16
-compile: true
+compile: false
 
 dataset_name: HuggingFaceFW/fineweb-edu
 dataset_subset: sample-10BT
