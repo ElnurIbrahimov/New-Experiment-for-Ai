@@ -41,13 +41,14 @@ def save_checkpoint(
 
     # Symlink to latest
     latest_path = os.path.join(checkpoint_dir, f"{prefix}_latest.pt")
-    if os.path.exists(latest_path):
-        os.remove(latest_path)
-    # On Windows, copy instead of symlink
     try:
-        os.symlink(path, latest_path)
+        if os.path.islink(latest_path) or os.path.exists(latest_path):
+            os.remove(latest_path)
+        os.symlink(os.path.abspath(path), latest_path)
     except OSError:
         import shutil
+        if os.path.exists(latest_path):
+            os.remove(latest_path)
         shutil.copy2(path, latest_path)
 
     return path

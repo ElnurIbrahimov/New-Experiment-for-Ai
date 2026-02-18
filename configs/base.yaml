@@ -24,7 +24,7 @@ warmup_steps: 500
 max_steps: 50000
 batch_size: 8
 seq_len: 1024
-gradient_accumulation_steps: 16
+gradient_accumulation_steps: 4
 dtype: bfloat16
 compile: true
 
