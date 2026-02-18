@@ -102,21 +102,32 @@ class TrainConfig:
     experiment_name: str = ""
 
 
+def _coerce_type(value, field_type):
+    """Coerce a YAML value to the expected dataclass field type."""
+    if field_type is float and isinstance(value, str):
+        return float(value)
+    if field_type is int and isinstance(value, str):
+        return int(value)
+    if field_type is float and isinstance(value, int):
+        return float(value)
+    return value
+
+
 def load_config(path: str) -> tuple[ModelConfig, TrainConfig]:
     """Load ModelConfig and TrainConfig from a YAML file."""
     with open(path, "r") as f:
         raw = yaml.safe_load(f)
 
-    model_fields = {f.name for f in ModelConfig.__dataclass_fields__.values()}
-    train_fields = {f.name for f in TrainConfig.__dataclass_fields__.values()}
+    model_fields = {f.name: f for f in ModelConfig.__dataclass_fields__.values()}
+    train_fields = {f.name: f for f in TrainConfig.__dataclass_fields__.values()}
 
     model_kwargs = {}
     train_kwargs = {}
     for k, v in raw.items():
         if k in model_fields:
-            model_kwargs[k] = v
+            model_kwargs[k] = _coerce_type(v, model_fields[k].type)
         elif k in train_fields:
-            train_kwargs[k] = v
+            train_kwargs[k] = _coerce_type(v, train_fields[k].type)
 
     return ModelConfig(**model_kwargs), TrainConfig(**train_kwargs)
 
