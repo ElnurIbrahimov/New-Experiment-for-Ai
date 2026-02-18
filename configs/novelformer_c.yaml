@@ -1,0 +1,48 @@
+# NovelFormer-C: Memory-focused stack (DiffAttn + SSMax + Titans + MoD)
+d_model: 768
+n_heads: 12
+n_layers: 12
+d_ff: 2048
+vocab_size: 50304
+max_seq_len: 1024
+dropout: 0.0
+tie_embeddings: true
+
+use_diff_attn: true
+use_ssmax: true
+use_mod: true
+use_moe_pp: false
+use_ngpt: false
+use_titans: true
+use_cope: false
+
+# MoD params
+mod_capacity_ratio: 0.5
+mod_aux_loss_weight: 0.01
+
+# Titans params
+titans_mem_size: 256
+titans_n_persistent_tokens: 4
+titans_chunk_size: 128
+titans_every_n_layers: 3
+titans_mem_layers: 2
+
+lr: 3e-4
+min_lr: 3e-5
+weight_decay: 0.1
+warmup_steps: 500
+max_steps: 50000
+batch_size: 32
+seq_len: 1024
+gradient_accumulation_steps: 4
+dtype: bfloat16
+
+dataset_name: HuggingFaceFW/fineweb-edu
+dataset_subset: sample-10BT
+tokenizer: gpt2
+
+log_interval: 10
+eval_interval: 500
+eval_steps: 50
+checkpoint_interval: 1000
+experiment_name: novelformer_c
