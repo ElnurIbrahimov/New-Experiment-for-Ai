@@ -26,6 +26,7 @@ batch_size: 8
 seq_len: 1024
 gradient_accumulation_steps: 16
 dtype: bfloat16
+compile: true
 
 dataset_name: HuggingFaceFW/fineweb-edu
 dataset_subset: sample-10BT
